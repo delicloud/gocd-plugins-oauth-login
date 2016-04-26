@@ -54,7 +54,7 @@ public class DeliFlowPluginProvider implements PluginProvider {
 
         final String oauthServer = pluginSettings.getOauthServer();
         try {
-            final String searchUrl = String.format("%s/uaa/users?name=%s", oauthServer, URLEncoder.encode(searchTerm, "UTF-8"));
+            final String searchUrl = String.format("%s/users?name=%s", oauthServer, URLEncoder.encode(searchTerm, "UTF-8"));
             final String responseText = HttpUtil.getRequest(searchUrl, pluginSettings.getUserName(), pluginSettings.getPassword());
             LOGGER.debug(String.format("Search user by %s: %s", searchTerm, responseText));
             final JSONArray response = new JSONArray(responseText);

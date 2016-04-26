@@ -48,7 +48,7 @@ public class WebRequestIndexRequestHandler implements RequestHandler {
 
 
     private String getGoRedirectURL(String serverBaseURL) {
-        return String.format("%s/go/plugin/interact/%s/authenticate", serverBaseURL, pluginProvider.getPluginId());
+        return String.format("%s/plugin/interact/%s/authenticate", serverBaseURL, pluginProvider.getPluginId());
     }
 
 }

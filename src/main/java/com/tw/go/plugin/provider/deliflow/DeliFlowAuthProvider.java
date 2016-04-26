@@ -49,18 +49,18 @@ public class DeliFlowAuthProvider implements Serializable {
     }
 
     private User getUserProfile(String token) throws Exception {
-        final String responseText = HttpUtil.getRequest(String.format("%s/uaa/users/me?%s=%s", pluginSettings.getOauthServer(), ACCESS_TOKEN_PARAMETER_NAME, token));
+        final String responseText = HttpUtil.getRequest(String.format("%s/users/me?%s=%s", pluginSettings.getOauthServer(), ACCESS_TOKEN_PARAMETER_NAME, token));
         LOGGER.debug(String.format("User authorization with: %s", responseText));
         final JSONObject response = new JSONObject(responseText);
         return new User(response.optString("name", ""), response.optString("name", ""), response.optString("email", ""));
     }
 
     private String getAuthenticationUrl() {
-        return pluginSettings.getOauthServer() + "/uaa/oauth/authorize";
+        return pluginSettings.getOauthServer() + "/oauth/authorize";
     }
 
     private String getAccessTokenUrl() {
-        return String.format("%s/uaa/oauth/token", pluginSettings.getOauthServer());
+        return String.format("%s/oauth/token", pluginSettings.getOauthServer());
     }
 
 }
