@@ -11,6 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <go.version>14.4.0</go.version>
         <main.dir>${project.basedir}</main.dir>
+        <plugin.name>deliflow-oauth-login</plugin.name>
     </properties>
 
     <dependencies>
