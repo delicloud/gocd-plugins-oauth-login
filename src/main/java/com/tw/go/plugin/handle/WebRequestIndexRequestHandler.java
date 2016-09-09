@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import com.tw.go.plugin.PluginSettings;
+import com.tw.go.plugin.provider.OAuthProvider;
 import com.tw.go.plugin.provider.PluginProvider;
-import com.tw.go.plugin.provider.deliflow.DeliFlowAuthProvider;
 import com.tw.go.plugin.util.JSONUtils;
 
 import static com.thoughtworks.go.plugin.api.logging.Logger.getLoggerFor;
@@ -22,6 +22,7 @@ public class WebRequestIndexRequestHandler implements RequestHandler {
         this.pluginProvider = pluginProvider;
     }
 
+
     @Override
     public boolean canHandle(GoPluginApiRequest goPluginApiRequest) {
         return WEB_REQUEST_INDEX.equals(goPluginApiRequest.requestName());
@@ -36,7 +37,7 @@ public class WebRequestIndexRequestHandler implements RequestHandler {
     private GoPluginApiResponse handleSetupLoginWebRequest(GoApplicationAccessorWarp goApplicationAccessor) {
         try {
             PluginSettings pluginSettings = goApplicationAccessor.getPluginSettings(pluginProvider.getPluginId());
-            final DeliFlowAuthProvider authProvider = new DeliFlowAuthProvider(pluginSettings);
+            final OAuthProvider authProvider = pluginProvider.getOAuthProvider(pluginSettings);
             String redirectURL = authProvider.getLoginRedirectURL(getGoRedirectURL(pluginSettings.getServerBaseURL()));
             goApplicationAccessor.storeAuthProvider(this.pluginProvider.getPluginId(), authProvider);
             return JSONUtils.renderJSON(SC_MOVED_TEMPORARILY, ImmutableMap.of("Location", redirectURL), null);

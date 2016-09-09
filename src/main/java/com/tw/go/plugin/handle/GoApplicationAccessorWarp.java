@@ -8,7 +8,7 @@ import com.thoughtworks.go.plugin.api.request.GoApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoApiResponse;
 import com.tw.go.plugin.PluginSettings;
 import com.tw.go.plugin.User;
-import com.tw.go.plugin.provider.deliflow.DeliFlowAuthProvider;
+import com.tw.go.plugin.provider.OAuthProvider;
 import com.tw.go.plugin.util.Base64;
 import com.tw.go.plugin.util.JSONUtils;
 
@@ -62,7 +62,7 @@ public class GoApplicationAccessorWarp extends GoApplicationAccessor {
         return new GoPluginIdentifier(EXTENSION_NAME, goSupportedVersions);
     }
 
-    public DeliFlowAuthProvider getStoredAuthProvider(String pluginId) {
+    public OAuthProvider getStoredAuthProvider(String pluginId) {
         Map<String, String> requestMap = ImmutableMap.of("plugin-id", pluginId);
 
         GoApiRequest goApiRequest = createGoApiRequest(GO_REQUEST_SESSION_GET, JSONUtils.toJSON(requestMap));
@@ -74,7 +74,7 @@ public class GoApplicationAccessorWarp extends GoApplicationAccessor {
     }
 
 
-    public void storeAuthProvider(String pluginId, DeliFlowAuthProvider authProvider) {
+    public void storeAuthProvider(String pluginId, OAuthProvider authProvider) {
         Map<String, Serializable> requestMap = ImmutableMap.of(
                 "plugin-id", pluginId,
                 "session-data", ImmutableMap.of("social-auth-manager", serializeObject(authProvider))

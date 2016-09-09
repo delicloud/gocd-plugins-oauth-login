@@ -1,9 +1,10 @@
-package com.tw.go.plugin.provider.cas;
+package com.tw.go.plugin.provider.casOAuth2;
 
 import com.google.common.collect.ImmutableMap;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.tw.go.plugin.PluginSettings;
 import com.tw.go.plugin.User;
+import com.tw.go.plugin.provider.OAuthProvider;
 import com.tw.go.plugin.util.HttpUtil;
 import org.json.JSONObject;
 
@@ -11,14 +12,14 @@ import java.io.Serializable;
 import java.net.URLEncoder;
 import java.util.Map;
 
-public class DeliFlowAuthProvider implements Serializable {
+public class CASOAuth2Provider implements OAuthProvider {
 
     private PluginSettings pluginSettings;
     public static final String ACCESS_TOKEN_PARAMETER_NAME = "access_token";
-    private static Logger LOGGER = Logger.getLoggerFor(DeliFlowAuthProvider.class);
+    private static Logger LOGGER = Logger.getLoggerFor(CASOAuth2Provider.class);
     private String successUrl;
 
-    public DeliFlowAuthProvider(PluginSettings pluginSettings) throws Exception {
+    public CASOAuth2Provider(PluginSettings pluginSettings) throws Exception {
         this.pluginSettings = pluginSettings;
     }
 
@@ -56,11 +57,11 @@ public class DeliFlowAuthProvider implements Serializable {
     }
 
     private String getAuthenticationUrl() {
-        return pluginSettings.getOauthServer() + "/oauth/authorize";
+        return pluginSettings.getOauthServer() + "/cas/oauth2.0/authorize";
     }
 
     private String getAccessTokenUrl() {
-        return String.format("%s/oauth/token", pluginSettings.getOauthServer());
+        return String.format("%s/cas/oauth2.0/accessToken", pluginSettings.getOauthServer());
     }
 
 }

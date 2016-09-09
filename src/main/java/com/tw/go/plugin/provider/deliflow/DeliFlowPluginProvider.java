@@ -5,6 +5,7 @@ import com.google.common.collect.FluentIterable;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.tw.go.plugin.PluginSettings;
 import com.tw.go.plugin.User;
+import com.tw.go.plugin.provider.OAuthProvider;
 import com.tw.go.plugin.provider.PluginProvider;
 import com.tw.go.plugin.util.Base64;
 import com.tw.go.plugin.util.HttpUtil;
@@ -22,6 +23,11 @@ public class DeliFlowPluginProvider implements PluginProvider {
     @Override
     public String getPluginId() {
         return "deliflow.oauth.login";
+    }
+
+    @Override
+    public OAuthProvider getOAuthProvider(PluginSettings settings) throws Exception {
+        return new DeliFlowAuthProvider(settings);
     }
 
     @Override

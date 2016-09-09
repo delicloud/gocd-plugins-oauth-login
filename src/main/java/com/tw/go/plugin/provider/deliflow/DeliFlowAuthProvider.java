@@ -4,14 +4,14 @@ import com.google.common.collect.ImmutableMap;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.tw.go.plugin.PluginSettings;
 import com.tw.go.plugin.User;
+import com.tw.go.plugin.provider.OAuthProvider;
 import com.tw.go.plugin.util.HttpUtil;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.net.URLEncoder;
 import java.util.Map;
 
-public class DeliFlowAuthProvider implements Serializable {
+public class DeliFlowAuthProvider implements OAuthProvider {
 
     private PluginSettings pluginSettings;
     public static final String ACCESS_TOKEN_PARAMETER_NAME = "access_token";
@@ -22,6 +22,7 @@ public class DeliFlowAuthProvider implements Serializable {
         this.pluginSettings = pluginSettings;
     }
 
+    @Override
     public User verifyResponse(Map<String, String> requestParams) throws Exception {
         final Map<String, String> data = ImmutableMap.of(
                 "code", requestParams.get("code"),
@@ -36,6 +37,7 @@ public class DeliFlowAuthProvider implements Serializable {
         return getUserProfile(token);
     }
 
+    @Override
     public String getLoginRedirectURL(String successUrl) throws Exception {
         this.successUrl = successUrl;
         StringBuffer sb = new StringBuffer();

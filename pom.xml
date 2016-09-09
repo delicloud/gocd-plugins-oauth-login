@@ -63,6 +63,16 @@
                 <resource.directory>src/main/resources/deliflow</resource.directory>
             </properties>
         </profile>
+
+
+        <profile>
+            <id>deliflow.cas-oauth2.login</id>
+            <properties>
+                <plugin.name>deliflow-cas-oauth2-login</plugin.name>
+                <resource.directory>src/main/resources/cas-oauth2</resource.directory>
+            </properties>
+        </profile>
+
     </profiles>
 
     <build>
