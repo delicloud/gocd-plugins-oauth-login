@@ -61,7 +61,7 @@ public class CASOAuth2Provider implements OAuthProvider {
     }
 
     private String getAccessTokenUrl() {
-        return String.format("%s/cas/oauth2.0/accessToken", pluginSettings.getOauthServer());
+        return String.format("/cas/oauth2.0/accessToken", pluginSettings.getOauthServer());
     }
 
 }
