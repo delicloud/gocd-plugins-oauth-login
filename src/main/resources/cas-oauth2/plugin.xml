@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<go-plugin id="deliflow.oauth.login" version="1">
+    <about>
+        <name>DeliFlow OAuth Login</name>
+        <version>1.0</version>
+        <target-go-version>15.2.0</target-go-version>
+        <description>Allows users to login with DeliFlow</description>
+        <vendor>
+            <name>greengerong</name>
+            <url>https://github.com/twconsultants/leansw-gocd</url>
+        </vendor>
+    </about>
+</go-plugin>
