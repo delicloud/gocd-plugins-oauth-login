@@ -54,10 +54,9 @@ public class GoApplicationAccessorWarp extends GoApplicationAccessor {
                 responseBodyMap.get(PLUGIN_SETTINGS_SERVER_BASE_URL),
                 responseBodyMap.get(PLUGIN_SETTINGS_OAUTH_SERVER),
                 responseBodyMap.get(PLUGIN_SETTINGS_ACCESS_TOKEN_URL),
+                responseBodyMap.get(PLUGIN_SETTINGS_PROFILE_URL),
                 responseBodyMap.get(PLUGIN_SETTINGS_CONSUMER_KEY),
-                responseBodyMap.get(PLUGIN_SETTINGS_CONSUMER_SECRET),
-                responseBodyMap.get(PLUGIN_SETTINGS_USER_NAME),
-                responseBodyMap.get(PLUGIN_SETTINGS_USER_PASSWORD)
+                responseBodyMap.get(PLUGIN_SETTINGS_CONSUMER_SECRET)
         );
     }
 

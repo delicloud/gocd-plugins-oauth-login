@@ -18,13 +18,16 @@
     <input type="text" ng-model="consumer_secret" ng-required="true"/>
     <span class="form_error" ng-show="GOINPUTNAME[consumer_secret].$error.server">{{ GOINPUTNAME[consumer_secret].$error.server }}</span>
 </div>
+
+
+
 <div class="form_item_block">
-    <label>DeliFlow User Name:<span class="asterisk">*</span></label>
-    <input type="text" ng-model="user_name" ng-required="true"/>
-    <span class="form_error" ng-show="GOINPUTNAME[user_name].$error.server">{{ GOINPUTNAME[user_name].$error.server }}</span>
+    <label>Access Token Url<span class="asterisk">*</span></label>
+    <input type="text" ng-model="access_token_url" ng-required="true"/>
+    <span class="form_error" ng-show="GOINPUTNAME[access_token_url].$error.server">{{ GOINPUTNAME[access_token_url].$error.server }}</span>
 </div>
 <div class="form_item_block">
-    <label>DeliFlow Password:<span class="asterisk">*</span></label>
-    <input type="password" ng-model="password" ng-required="true"/>
-    <span class="form_error" ng-show="GOINPUTNAME[password].$error.server">{{ GOINPUTNAME[password].$error.server }}</span>
+    <label>Profile Url<span class="asterisk">*</span></label>
+    <input type="text" ng-model="profile_url" ng-required="true"/>
+    <span class="form_error" ng-show="GOINPUTNAME[profile_url].$error.server">{{ GOINPUTNAME[profile_url].$error.server }}</span>
 </div>

@@ -1,5 +1,6 @@
 package com.tw.go.plugin.provider.deliflow;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.tw.go.plugin.PluginSettings;
@@ -55,10 +56,17 @@ public class DeliFlowAuthProvider implements Serializable {
         return sb.toString();
     }
 
+
+    private String getProfileUrl() {
+        if (!Strings.isNullOrEmpty(pluginSettings.getProfileURL())) {
+            return pluginSettings.getProfileURL();
+        }
+        return String.format("%s/cas/oauth2.0/profile", pluginSettings.getOauthServer());
+    }
+
     private User getUserProfile(String token) throws Exception {
         final String responseText = HttpUtil.getRequest(
-                String.format("%s/cas/oauth2.0/profile?%s=%s",
-                        pluginSettings.getOauthServer(),
+                String.format("%s?%s=%s", getProfileUrl(),
                         ACCESS_TOKEN_PARAMETER_NAME, token));
         LOGGER.debug(String.format("User authorization with: %s", responseText));
         final JSONObject response = new JSONObject(responseText);
@@ -70,6 +78,9 @@ public class DeliFlowAuthProvider implements Serializable {
     }
 
     private String getAccessTokenUrl() {
-        return String.format("%s/cas/oauth2.0/accessToken", pluginSettings.getOauthServer().replaceAll("https://", "http://"));
+        if (!Strings.isNullOrEmpty(pluginSettings.getAccessTokenURL())) {
+            return pluginSettings.getAccessTokenURL();
+        }
+        return String.format("%s/cas/oauth2.0/accessToken", pluginSettings.getOauthServer());
     }
 }

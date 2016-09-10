@@ -55,14 +55,14 @@ public class SettingValdationRequestHandler implements RequestHandler {
         validate(response, new FieldValidator() {
             @Override
             public void validate(Map<String, Object> fieldValidation) {
-                validateRequiredField(configuration, fieldValidation, PluginSettings.PLUGIN_SETTINGS_USER_NAME, "DeliFlow User Namet");
+                validateRequiredField(configuration, fieldValidation, PluginSettings.PLUGIN_SETTINGS_ACCESS_TOKEN_URL, "Access Token URL");
             }
         });
 
         validate(response, new FieldValidator() {
             @Override
             public void validate(Map<String, Object> fieldValidation) {
-                validateRequiredField(configuration, fieldValidation, PluginSettings.PLUGIN_SETTINGS_USER_PASSWORD, "DeliFlow Password");
+                validateRequiredField(configuration, fieldValidation, PluginSettings.PLUGIN_SETTINGS_PROFILE_URL, "Profile URL");
             }
         });
 
