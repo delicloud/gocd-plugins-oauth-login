@@ -28,7 +28,7 @@ public class RequestHandlerDispenser {
     }
 
     public GoPluginApiResponse handle(GoApplicationAccessorWarp goApplicationAccessor, final GoPluginApiRequest goPluginApiRequest) {
-        final Optional<RequestHandler> handlerOptional = FluentIterable.from(handlers).firstMatch(new Predicate<RequestHandler>() {
+            final Optional<RequestHandler> handlerOptional = FluentIterable.from(handlers).firstMatch(new Predicate<RequestHandler>() {
             @Override
             public boolean apply(RequestHandler requestHandler) {
                 return requestHandler.canHandle(goPluginApiRequest);

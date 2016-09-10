@@ -4,17 +4,17 @@ import com.google.common.collect.ImmutableMap;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.tw.go.plugin.PluginSettings;
 import com.tw.go.plugin.User;
-import com.tw.go.plugin.provider.OAuthProvider;
 import com.tw.go.plugin.util.HttpUtil;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.net.URLEncoder;
 import java.util.Map;
 
-public class DeliFlowAuthProvider implements OAuthProvider {
-
+public class DeliFlowAuthProvider implements Serializable {
     private PluginSettings pluginSettings;
     public static final String ACCESS_TOKEN_PARAMETER_NAME = "access_token";
+
     private static Logger LOGGER = Logger.getLoggerFor(DeliFlowAuthProvider.class);
     private String successUrl;
 
@@ -22,7 +22,6 @@ public class DeliFlowAuthProvider implements OAuthProvider {
         this.pluginSettings = pluginSettings;
     }
 
-    @Override
     public User verifyResponse(Map<String, String> requestParams) throws Exception {
         final Map<String, String> data = ImmutableMap.of(
                 "code", requestParams.get("code"),
@@ -30,14 +29,20 @@ public class DeliFlowAuthProvider implements OAuthProvider {
                 "redirect_uri", this.successUrl
         );
 
-        final String responseText = HttpUtil.postRequest(getAccessTokenUrl(), data, pluginSettings.getConsumerKey(), pluginSettings.getConsumerSecret());
-        final JSONObject response = new JSONObject(responseText);
-        final String token = response.optString(ACCESS_TOKEN_PARAMETER_NAME);
+        final String responseText = HttpUtil.getAccessToken(getAccessTokenUrl(), requestParams.get("code"), this.successUrl, pluginSettings.getConsumerKey(), pluginSettings.getConsumerSecret());
+        String[] params = responseText.split("&");
+        String token = "";
+        for (String param : params) {
+            if (param.startsWith(ACCESS_TOKEN_PARAMETER_NAME)) {
+                token = param.substring(ACCESS_TOKEN_PARAMETER_NAME.length() + 1, param.length());
+            }
+        }
+        //final JSONObject response = new JSONObject(responseText);
+        //final String token = response.optString(ACCESS_TOKEN_PARAMETER_NAME);
 
         return getUserProfile(token);
     }
 
-    @Override
     public String getLoginRedirectURL(String successUrl) throws Exception {
         this.successUrl = successUrl;
         StringBuffer sb = new StringBuffer();
@@ -51,18 +56,20 @@ public class DeliFlowAuthProvider implements OAuthProvider {
     }
 
     private User getUserProfile(String token) throws Exception {
-        final String responseText = HttpUtil.getRequest(String.format("%s/users/me?%s=%s", pluginSettings.getOauthServer(), ACCESS_TOKEN_PARAMETER_NAME, token));
+        final String responseText = HttpUtil.getRequest(
+                String.format("%s/cas/oauth2.0/profile?%s=%s",
+                        pluginSettings.getOauthServer(),
+                        ACCESS_TOKEN_PARAMETER_NAME, token));
         LOGGER.debug(String.format("User authorization with: %s", responseText));
         final JSONObject response = new JSONObject(responseText);
-        return new User(response.optString("name", ""), response.optString("name", ""), response.optString("email", ""));
+        return new User(response.optString("id", ""), response.optString("id", ""), response.optString("id", ""));
     }
 
     private String getAuthenticationUrl() {
-        return pluginSettings.getOauthServer() + "/oauth/authorize";
+        return String.format("%s/cas/oauth2.0/authorize", pluginSettings.getOauthServer());
     }
 
     private String getAccessTokenUrl() {
-        return String.format("%s/oauth/token", pluginSettings.getOauthServer());
+        return String.format("%s/cas/oauth2.0/accessToken", pluginSettings.getOauthServer().replaceAll("https://", "http://"));
     }
-
 }

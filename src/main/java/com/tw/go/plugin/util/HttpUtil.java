@@ -91,6 +91,23 @@ public class HttpUtil {
         return IOUtils.toString(con.getInputStream());
     }
 
+    public static String getAccessToken(String urlStr, String code, String redirectUri, String clientId, String clientSecret) throws Exception {
+        final URL url = new URL(String.format("%s?code=%s&redirect_uri=%s&client_id=%s&client_secret=%s",
+                urlStr,
+                code,
+                URLEncoder.encode(redirectUri, "UTF-8"),
+                clientId,
+                clientSecret));
+        final HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setDoOutput(true);
+        con.setDoInput(true);
+        con.setRequestMethod("POST");
+        con.setInstanceFollowRedirects(true);
+        DataOutputStream out = new DataOutputStream(con.getOutputStream());
+        out.flush();
+        return IOUtils.toString(con.getInputStream());
+    }
+
     private static String basicAuthorizationValue(String user, String pwd) {
         byte[] plainCredsBytes = String.format("%s:%s", user, pwd).getBytes();
         String base64CredsString = Base64.encodToString(plainCredsBytes);

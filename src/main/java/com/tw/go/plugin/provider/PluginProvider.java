@@ -8,8 +8,6 @@ import java.util.List;
 public interface PluginProvider {
     public String getPluginId();
 
-    OAuthProvider getOAuthProvider(PluginSettings settings) throws Exception;
-
     public String getName();
 
     public String getImageURL();

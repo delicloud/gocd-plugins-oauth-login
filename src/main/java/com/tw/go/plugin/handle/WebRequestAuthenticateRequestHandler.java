@@ -5,8 +5,8 @@ import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import com.tw.go.plugin.PluginSettings;
 import com.tw.go.plugin.User;
-import com.tw.go.plugin.provider.OAuthProvider;
 import com.tw.go.plugin.provider.PluginProvider;
+import com.tw.go.plugin.provider.deliflow.DeliFlowAuthProvider;
 import com.tw.go.plugin.util.JSONUtils;
 
 import static com.thoughtworks.go.plugin.api.logging.Logger.getLoggerFor;
@@ -36,7 +36,7 @@ public class WebRequestAuthenticateRequestHandler implements RequestHandler {
     private GoPluginApiResponse handleAuthenticateWebRequest(GoApplicationAccessorWarp goApplicationAccessor, final GoPluginApiRequest goPluginApiRequest) {
         try {
             PluginSettings pluginSettings = goApplicationAccessor.getPluginSettings(pluginProvider.getPluginId());
-            OAuthProvider authProvider = goApplicationAccessor.getStoredAuthProvider(this.pluginProvider.getPluginId());
+            DeliFlowAuthProvider authProvider = goApplicationAccessor.getStoredAuthProvider(this.pluginProvider.getPluginId());
             if (authProvider == null) {
                 throw new RuntimeException("DeliFlow auth provider not set");
             }
