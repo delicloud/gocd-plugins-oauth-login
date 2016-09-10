@@ -24,12 +24,6 @@ public class DeliFlowAuthProvider implements Serializable {
     }
 
     public User verifyResponse(Map<String, String> requestParams) throws Exception {
-        final Map<String, String> data = ImmutableMap.of(
-                "code", requestParams.get("code"),
-                "grant_type", "authorization_code",
-                "redirect_uri", this.successUrl
-        );
-
         final String responseText = HttpUtil.getAccessToken(getAccessTokenUrl(), requestParams.get("code"), this.successUrl, pluginSettings.getConsumerKey(), pluginSettings.getConsumerSecret());
         String[] params = responseText.split("&");
         String token = "";

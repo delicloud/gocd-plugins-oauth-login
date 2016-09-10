@@ -94,7 +94,7 @@ public class HttpUtil {
     public static String getAccessToken(String urlStr, String code, String redirectUri, String clientId, String clientSecret) throws Exception {
         final URL url = new URL(String.format("%s?code=%s&redirect_uri=%s&client_id=%s&client_secret=%s",
                 urlStr,
-                code,
+                URLEncoder.encode(code, "UTF-8"),
                 URLEncoder.encode(redirectUri, "UTF-8"),
                 clientId,
                 clientSecret));
