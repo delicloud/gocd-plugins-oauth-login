@@ -24,7 +24,20 @@ public class DeliFlowAuthProvider implements Serializable {
     }
 
     public User verifyResponse(Map<String, String> requestParams) throws Exception {
+        String token = getAccessToken(requestParams);
+        //final JSONObject response = new JSONObject(responseText);
+        //final String token = response.optString(ACCESS_TOKEN_PARAMETER_NAME);
+
+        return getUserProfile(token);
+    }
+
+    private String getAccessToken(Map<String, String> requestParams) throws Exception {
         final String responseText = HttpUtil.getAccessToken(getAccessTokenUrl(), requestParams.get("code"), this.successUrl, pluginSettings.getConsumerKey(), pluginSettings.getConsumerSecret());
+        String token = responseToAccessToken(responseText);
+        return token;
+    }
+
+    private String responseToAccessToken(String responseText) {
         String[] params = responseText.split("&");
         String token = "";
         for (String param : params) {
@@ -32,10 +45,7 @@ public class DeliFlowAuthProvider implements Serializable {
                 token = param.substring(ACCESS_TOKEN_PARAMETER_NAME.length() + 1, param.length());
             }
         }
-        //final JSONObject response = new JSONObject(responseText);
-        //final String token = response.optString(ACCESS_TOKEN_PARAMETER_NAME);
-
-        return getUserProfile(token);
+        return token;
     }
 
     public String getLoginRedirectURL(String successUrl) throws Exception {
